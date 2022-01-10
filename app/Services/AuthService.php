@@ -32,4 +32,16 @@ class AuthService {
 
         Auth::login($user);
     }
+
+    public function login($data)
+    {
+        Auth::attempt($data);
+    }
+
+    public function register($data)
+    {
+        $user = $this->userRepository->create($data);
+
+        Auth::login($user);
+    }
 }
