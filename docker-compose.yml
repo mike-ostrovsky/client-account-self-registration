@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
 
   #PHP Service
@@ -16,6 +16,9 @@ services:
       - ./:/var/www
     networks:
       - app-network
+    depends_on:
+      db:
+        condition: service_healthy
 
   #Nginx Service
   webserver:
@@ -40,8 +43,14 @@ services:
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 3s
+      retries: 20
 
   redis:
     image: redis
