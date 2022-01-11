@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\HomeResource;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\WeatherResource;
 use App\Services\WeatherService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,15 +24,26 @@ class HomeController extends Controller
         $this->weatherService = $weatherService;
     }
 
+    /**
+     * @param Request $request
+     * @return HomeResource
+     */
     public function home(Request $request){
         $ip = $request->ip();
         $position = Location::get($ip);
 
         $response = [
           'user' => Auth::user(),
-          'weather' => $this->weatherService->getCityWeather($position->cityName)
+          'weather' => empty($position) ? [] : $this->weatherService->getCityWeather($position->cityName)
         ];
 
         return new HomeResource($response);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function rootPage() {
+        return view('layouts.app');
     }
 }

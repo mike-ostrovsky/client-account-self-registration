@@ -6,14 +6,17 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class WeatherResource extends JsonResource
 {
+
     /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param \Illuminate\Http\Request $request
+     * @return array
      */
     public function toArray($request)
     {
+        if (empty($this['main'])) {
+            return [];
+        }
+
         return [
             'temp' => $this['main']['temp'],
             'pressure' => $this['main']['pressure'],

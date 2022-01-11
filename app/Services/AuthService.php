@@ -23,6 +23,9 @@ class AuthService {
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @param User $socialiteUser
+     */
     public function authorizeWithGoogle(User $socialiteUser)
     {
         $user = $this->userRepository->findByGoogleId($socialiteUser->id);
@@ -39,11 +42,17 @@ class AuthService {
         Auth::login($user);
     }
 
+    /**
+     * @param $data
+     */
     public function login($data)
     {
         Auth::attempt($data);
     }
 
+    /**
+     * @param $data
+     */
     public function register($data)
     {
         $user = $this->userRepository->create($data);
@@ -51,9 +60,13 @@ class AuthService {
         Auth::login($user);
     }
 
-    public function logout()
+    /**
+     * @return bool
+     */
+    public function logout(): bool
     {
         Session::flush();
+
         return empty(Session::all());
     }
 }

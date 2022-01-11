@@ -22,15 +22,22 @@ class GoogleController extends Controller
         $this->authService= $authService;
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function redirect()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function callback()
     {
         $user = Socialite::driver('google')->stateless()->user();
         $this->authService->authorizeWithGoogle($user);
+
         return redirect('/home');
     }
 }

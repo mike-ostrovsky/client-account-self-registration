@@ -16,17 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [HomeController::class, 'rootPage'])->name('rootPage');
+
+
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/auth/google/redirect', [GoogleController::class, 'redirect']);
+    Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+    Route::get('/login', [AuthController::class, 'getLoginPage'])->name('login-page');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/register', [AuthController::class, 'getRegisterPage'])->name('register-page');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
-
-Route::get('/api/auth/google/redirect', [GoogleController::class, 'redirect']);
-Route::get('/api/auth/google/callback', [GoogleController::class, 'callback']);
-
-Route::get('/login', [AuthController::class, 'getLoginPage'])->name('login-page');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/register', [AuthController::class, 'getRegisterPage'])->name('register-page');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/home', [HomeController::class, 'home'])->name('home');
