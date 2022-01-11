@@ -9,11 +9,7 @@ class UserRepository
 {
     public function create($data)
     {
-        return User::create([
-            'name' => $data->name,
-            'email' => $data->email,
-            'google_id'=> $data->id,
-        ]);
+        return User::create($data);
     }
 
     public function findByGoogleId($id)

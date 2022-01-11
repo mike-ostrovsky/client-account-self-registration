@@ -30,13 +30,22 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $data = $request->validationData();
+        $data = $request->validated();
         $this->authenticator->login($data);
+        return redirect('/home');
     }
 
     public function register(RegisterRequest $request)
     {
-        $data = $request->validationData();
+        $data = $request->validated();
         $this->authenticator->register($data);
+        return redirect('/home');
+    }
+
+
+    public function logout()
+    {
+        $this->authenticator->logout();
+        return redirect('/login');
     }
 }

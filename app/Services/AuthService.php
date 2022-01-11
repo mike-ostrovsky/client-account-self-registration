@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Contracts\User;
 
 class AuthService {
@@ -43,5 +44,11 @@ class AuthService {
         $user = $this->userRepository->create($data);
 
         Auth::login($user);
+    }
+
+    public function logout()
+    {
+        Session::flush();
+        return empty(Session::all());
     }
 }

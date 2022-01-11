@@ -30,4 +30,5 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/home', [HomeController::class, 'home'])->name('home');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
