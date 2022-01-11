@@ -39,20 +39,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-4">
+                            <div class="form-group row m-2">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Login') }}
                                     </button>
                                 </div>
                             </div>
-
+                            <hr>
                             <p class="text-center mb-3">
                                 Or Login with
                             </p>
-
-
-                            <hr>
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <a href="{{ url('/api/auth/google/redirect') }}" class="btn btn-primary"><i class="fa fa-google"></i> Google</a>

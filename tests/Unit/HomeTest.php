@@ -37,4 +37,10 @@ class HomeTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_user_cannot_get_a_home_data_when_not_authenticated()
+    {
+        $response = $this->get('/home');
+        $response->assertRedirect('/login');
+    }
 }

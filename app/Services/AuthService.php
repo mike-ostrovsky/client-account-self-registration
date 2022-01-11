@@ -28,7 +28,12 @@ class AuthService {
         $user = $this->userRepository->findByGoogleId($socialiteUser->id);
 
         if (!$user){
-            $user = $this->userRepository->create($socialiteUser);
+            $normalized = [
+                'name' => $socialiteUser->name,
+                'email' => $socialiteUser->email,
+                'google_id'=> $socialiteUser->id,
+            ];
+            $user = $this->userRepository->create($normalized);
         }
 
         Auth::login($user);
